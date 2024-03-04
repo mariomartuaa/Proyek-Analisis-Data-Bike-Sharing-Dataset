@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import numpy as np
 
 st.title('Proyek Analisis Data: Bike Sharing Dataset')
 st.markdown('- Nama: Mario Martua Aditia')
@@ -200,15 +201,13 @@ with tab2:
         st.markdown("Chart tersebut merepresentasikan nilai total peminjaman sepeda berdasarkan hari dan waktu.")
 
         sunny_data = df[(df['weather_map'] == 1) & (df['status'] == 'Weekday')]
-        avg_sunny = sunny_data['total'].mean()
+        avg_sunnywd = sunny_data['total'].mean()
         cd_data = df[(df['weather_map'] == 2) & (df['status'] == 'Weekday')]
-        avg_cd = cd_data['total'].mean()
+        avg_cdwd = cd_data['total'].mean()
         lr_data = df[(df['weather_map'] == 3) & (df['status'] == 'Weekday')]
-        avg_lr = lr_data['total'].mean()
-        hr_data = df[(df['weather_map'] == 4) & (df['status'] == 'Weekday')]
-        avg_hr = hr_data['total'].mean()
+        avg_lrwd = lr_data['total'].mean()
 
-        avg = [avg_sunny, avg_cd, avg_lr]
+        avg = [avg_sunnywd, avg_cdwd, avg_lrwd]
 
         st.subheader('Average Weekday Bike Sharing Based On Weather')
         fig, ax = plt.subplots(figsize=(10,6))
@@ -219,15 +218,13 @@ with tab2:
         st.markdown('Chart tersebut merepresentasikan nilai rata-rata peminjaman sepeda pada hari bekerja (Senin - Jumat) berdasarkan cuaca.')
 
         sunny_data = df[(df['weather_map'] == 1) & (df['status'] == 'Weekend')]
-        avg_sunny = sunny_data['total'].mean()
+        avg_sunnyw = sunny_data['total'].mean()
         cd_data = df[(df['weather_map'] == 2) & (df['status'] == 'Weekend')]
-        avg_cd = cd_data['total'].mean()
+        avg_cdw = cd_data['total'].mean()
         lr_data = df[(df['weather_map'] == 3) & (df['status'] == 'Weekend')]
-        avg_lr = lr_data['total'].mean()
-        hr_data = df[(df['weather_map'] == 4) & (df['status'] == 'Weekend')]
-        avg_hr = hr_data['total'].mean()
+        avg_lrw = lr_data['total'].mean()
 
-        avg = [avg_sunny, avg_cd, avg_lr]
+        avg = [avg_sunnyw, avg_cdw, avg_lrw]
 
         st.subheader('Average Weekend Bike Sharing Based On Weather')
         fig, ax = plt.subplots(figsize=(10,6))
@@ -237,15 +234,13 @@ with tab2:
         st.markdown('Chart tersebut merepresentasikan nilai rata-rata peminjaman sepeda pada akhir minggu (Sabtu & Minggu) berdasarkan cuaca.')
 
         sunny_data = df[(df['weather_map'] == 1) & (df['status'] == 'Holiday')]
-        avg_sunny = sunny_data['total'].mean()
+        avg_sunnyh = sunny_data['total'].mean()
         cd_data = df[(df['weather_map'] == 2) & (df['status'] == 'Holiday')]
-        avg_cd = cd_data['total'].mean()
+        avg_cdh = cd_data['total'].mean()
         lr_data = df[(df['weather_map'] == 3) & (df['status'] == 'Holiday')]
-        avg_lr = lr_data['total'].mean()
-        hr_data = df[(df['weather_map'] == 4) & (df['status'] == 'Holiday')]
-        avg_hr = hr_data['total'].mean()
+        avg_lrh = lr_data['total'].mean()
 
-        avg = [avg_sunny, avg_cd, avg_lr]
+        avg = [avg_sunnyh, avg_cdh, avg_lrh]
 
         st.subheader('Average Holiday Bike Sharing Based On Weather')
         fig, ax = plt.subplots(figsize=(10,6))
@@ -255,21 +250,28 @@ with tab2:
         st.pyplot(fig)
         st.markdown('Chart tersebut merepresentasikan nilai rata-rata peminjaman sepeda pada hari libur berdasarkan cuaca.')
         
-        sunny_data = df[df['weather_map'] == 1]
-        avg_sunny = sunny_data['total'].mean()
-        cd_data = df[df['weather_map'] == 2]
-        avg_cd = cd_data['total'].mean()
-        lr_data = df[df['weather_map'] == 3]
-        avg_lr = lr_data['total'].mean()
-        hr_data = df[df['weather_map'] == 4]
-        avg_hr = hr_data['total'].mean()
         
-        avg2 = [avg_sunny, avg_cd, avg_lr]
+        '''avg_sunnyt = (avg_sunnywd+avg_sunnyw+avg_sunnyh)/3
+        avg_cdt = (avg_cdwd+avg_cdw+avg_cdh)/3
+        avg_lrt = (avg_lrwd+avg_lrw+avg_lrh)/3'''
+        
+        sunny_data2 = df[df['weather_map'] == 1]
+        avg_sunnyt = sunny_data2['total'].mean()
+        cd_data2 = df[df['weather_map'] == 2]
+        avg_cdt = cd_data2['total'].mean()
+        lr_data2 = df[df['weather_map'] == 3]
+        avg_lrt = lr_data2['total'].mean()
+                        
+        avgt = [avg_sunnyt, avg_cdt, avg_lrt]
+        
+        for i in range(len(avgt)):
+                if np.isnan(avgt[i]):
+                        avgt[i] = 0
         
         st.subheader('Percentage of Average Bike Sharing Based On Weather')
         fig, ax = plt.subplots(figsize=(15,6))
         ax.pie(
-                x = avg2,
+                x = avgt,
                 labels = weathers,
                 autopct='%1.1f%%',
                 colors = colors
