@@ -250,11 +250,6 @@ with tab2:
         st.pyplot(fig)
         st.markdown('Chart tersebut merepresentasikan nilai rata-rata peminjaman sepeda pada hari libur berdasarkan cuaca.')
         
-        
-        '''avg_sunnyt = (avg_sunnywd+avg_sunnyw+avg_sunnyh)/3
-        avg_cdt = (avg_cdwd+avg_cdw+avg_cdh)/3
-        avg_lrt = (avg_lrwd+avg_lrw+avg_lrh)/3'''
-        
         sunny_data2 = df[df['weather_map'] == 1]
         avg_sunnyt = sunny_data2['total'].mean()
         cd_data2 = df[df['weather_map'] == 2]
